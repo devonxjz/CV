@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import profileData from '../data/profile.json';
 import skillsData from '../data/skills.json';
 import milestonesData from '../data/milestones.json';
@@ -73,23 +73,7 @@ const getInitialData = (): PortfolioData => {
     const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);
-      // Auto-refresh projects cache if they contain old MissLost project
-      const hasOldProjects = parsed.projects && parsed.projects.some((p: any) => p.title.toLowerCase().includes('misslost'));
-      if (hasOldProjects) {
-        try {
-          localStorage.removeItem('portfolio-data');
-          localStorage.removeItem('portfolio-data-v2');
-          localStorage.removeItem('portfolio-data-v3');
-          localStorage.removeItem(LOCAL_STORAGE_KEY);
-        } catch {}
-        return {
-          profile: profileData as Profile,
-          skills: skillsData as Skill[],
-          milestones: milestonesData as Milestone[],
-          projects: projectsData as Project[],
-          contact: contactData as ContactInfo,
-        };
-      }
+      // Startup projects cache check removed
       return {
         profile: parsed.profile || profileData,
         skills: parsed.skills || skillsData,
@@ -114,21 +98,7 @@ const getInitialData = (): PortfolioData => {
 export const usePortfolioData = () => {
   const [state, setState] = useState<PortfolioData>(getInitialData);
 
-  useEffect(() => {
-    const hasOld = state.projects.some((p: any) => p.title.toLowerCase().includes('misslost'));
-    if (hasOld) {
-      try {
-        localStorage.removeItem('portfolio-data');
-        localStorage.removeItem('portfolio-data-v2');
-        localStorage.removeItem('portfolio-data-v3');
-        localStorage.removeItem(LOCAL_STORAGE_KEY);
-      } catch {}
-      setState(prev => ({
-        ...prev,
-        projects: projectsData as Project[]
-      }));
-    }
-  }, [state.projects]);
+  // Legacy cache clearing effect removed to allow active MissLost project loading
 
 
   const updateProfile = (profile: Profile) => {

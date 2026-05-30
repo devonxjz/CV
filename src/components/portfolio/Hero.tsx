@@ -5,20 +5,40 @@ interface HeroProps {
     subtext: string;
     ctaText: string;
     ctaTarget: number;
+    highlightText?: string;
   };
   goToSection: (index: number) => void;
 }
 
 const Hero = ({ profile, goToSection }: HeroProps) => {
   return (
-    <div className="hero-shell">
+    <div className="hero-shell" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {/* Availability Badge */}
+      <div className="availability-badge drop-shadow-[0_4px_6px_rgba(0,0,0,0.4)]">
+        <span className="pulse-dot" />
+        Available for internship · HCMC
+      </div>
+
       <div className="hero-kicker drop-shadow-[0_8px_8px_rgba(0,0,0,1)]">
         <span></span>
         {profile.tag}
       </div>
 
-      <h1 className="hero-title display drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] drop-shadow-[0_8px_8px_rgba(0,0,0,1)]">
-        {profile.headline}
+      <h1 
+        className="hero-title display drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] drop-shadow-[0_8px_8px_rgba(0,0,0,1)]"
+        style={{ whiteSpace: 'pre-line' }}
+      >
+        {profile.headline.includes(profile.highlightText || "Deployed to defend.") ? (
+          <>
+            {profile.headline.split(profile.highlightText || "Deployed to defend.")[0]}
+            <span style={{ color: '#6da4ff', textShadow: '0 0 25px rgba(109,164,255,0.45)' }}>
+              {profile.highlightText || "Deployed to defend."}
+            </span>
+            {profile.headline.split(profile.highlightText || "Deployed to defend.")[1]}
+          </>
+        ) : (
+          profile.headline
+        )}
       </h1>
 
       <p className="hero-sub drop-shadow-[0_8px_10px_rgba(0,0,0,1)]">

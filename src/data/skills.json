@@ -1,14 +1,14 @@
 [
-  { "name": "Java", "percent": 88, "logo": "" },
-  { "name": "TypeScript", "percent": 85, "logo": "" },
-  { "name": "Spring Boot", "percent": 80, "logo": "" },
-  { "name": "NestJS", "percent": 75, "logo": "" },
-  { "name": "Next.js", "percent": 78, "logo": "" },
-  { "name": "React", "percent": 82, "logo": "" },
-  { "name": "PostgreSQL", "percent": 76, "logo": "" },
-  { "name": "MongoDB", "percent": 74, "logo": "" },
-  { "name": "OWASP Top 10", "percent": 70, "logo": "" },
-  { "name": "Python", "percent": 65, "logo": "" },
-  { "name": "HTML/CSS/JS", "percent": 72, "logo": "" },
-  { "name": "Vite", "percent": 78, "logo": "" }
+  { "name": "Java", "percent": 88, "logo": "", "tags": ["OOP", "Backend", "DSA"] },
+  { "name": "TypeScript", "percent": 85, "logo": "", "tags": ["Type-safe", "Node", "API"] },
+  { "name": "Spring Boot", "percent": 80, "logo": "", "tags": ["REST API", "Microservices", "Auth"] },
+  { "name": "NestJS", "percent": 75, "logo": "", "tags": ["GraphQL", "WebSocket", "DI"] },
+  { "name": "Next.js", "percent": 78, "logo": "", "tags": ["SSR", "SEO", "Full-stack"] },
+  { "name": "React", "percent": 82, "logo": "", "tags": ["SPA", "Hooks", "UI"] },
+  { "name": "PostgreSQL", "percent": 76, "logo": "", "tags": ["Relational DB", "Query", "ORM"] },
+  { "name": "MongoDB", "percent": 74, "logo": "", "tags": ["NoSQL", "Atlas", "Aggregation"] },
+  { "name": "OWASP Top 10", "percent": 70, "logo": "", "tags": ["Pentesting", "Security", "CTF"] },
+  { "name": "Python", "percent": 65, "logo": "", "tags": ["Scripting", "Automation", "AI"] },
+  { "name": "HTML/CSS/JS", "percent": 72, "logo": "", "tags": ["Responsive", "Animation", "DOM"] },
+  { "name": "Vite", "percent": 78, "logo": "", "tags": ["Build tool", "HMR", "ESM"] }
 ]

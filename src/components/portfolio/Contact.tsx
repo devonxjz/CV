@@ -44,8 +44,8 @@ const Contact = ({ contact }: ContactProps) => {
   return (
     <div className="contact-content">
       <h2 className="contact-heading">Let's build something</h2>
-      <p className="contact-subtext">
-        Sẵn sàng cho vị trí Backend Developer Intern tại các đội ngũ product-driven
+      <p className="contact-subtext" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '4px' }}>
+        Available for internships and collaboration
       </p>
       <div className="contact-buttons">
         {links.map((link) =>

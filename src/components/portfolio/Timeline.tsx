@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import hvImg from '../../assets/hv.jpg';
 import spkImg from '../../assets/SPK.png';
 import vibeImg from '../../assets/4.jpg';
-import agentImg from '../../assets/agent.jpg';
+import agentImg from '../../assets/agent.png';
 
 interface Milestone {
   date: string;
@@ -23,7 +23,7 @@ const imageMap: Record<string, string> = {
   'hv.jpg': hvImg,
   'SPK.png': spkImg,
   '4.jpg': vibeImg,
-  'agent.jpg': agentImg,
+  'agent.png': agentImg,
 };
 
 const getMilestoneImage = (title: string, imageField?: string) => {
@@ -224,7 +224,10 @@ const Timeline = ({ milestones, onNext, onPrev, currentSection }: TimelineProps)
 
   return (
     <div className="timeline-content">
-      <h2 className="timeline-heading">Timeline</h2>
+      <h2 className="timeline-heading">My Journey</h2>
+      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', textAlign: 'center' }}>
+        From high school to hackathons
+      </p>
       <div className="timeline-track-container" ref={trackContainerRef}>
         <div className="timeline-track" ref={trackRef}>
           {/* Background line */}

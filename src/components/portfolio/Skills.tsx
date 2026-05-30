@@ -5,6 +5,7 @@ interface Skill {
   name: string;
   percent: number;
   logo: string;
+  tags?: string[];
 }
 
 interface SkillsProps {
@@ -262,27 +263,49 @@ const MotionSkillCard = ({
       <div className="card-blueprint-corner bottom-right" />
 
       {/* Floating Header */}
-      <div className="skill-card-header">
+      <div className="skill-card-header" style={{ width: '100%' }}>
         <div 
           className="skill-logo-wrapper"
           style={{ 
             borderColor: `${brandColor}40`,
-            boxShadow: `inset 0 0 12px ${brandColor}10`
+            boxShadow: `inset 0 0 12px ${brandColor}10`,
+            width: '80px',
+            height: '80px',
+            borderRadius: '16px'
           }}
         >
-          {renderSkillIcon(skill.name, 24)}
+          {renderSkillIcon(skill.name, 64)}
         </div>
-        <div className="skill-info">
-          <span className="skill-type-tag">Core Skill</span>
-          <h3 className="skill-title">{skill.name}</h3>
+        <div className="skill-info" style={{ gap: '8px', width: '100%' }}>
+          <h3 className="skill-title" style={{ fontWeight: 600 }}>{skill.name}</h3>
+          {skill.tags && skill.tags.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '6px', flexWrap: 'wrap', justifyContent: 'center', width: '100%', marginTop: '2px' }}>
+              {skill.tags.map(tag => (
+                <span 
+                  key={tag} 
+                  style={{ 
+                    fontSize: '10px', 
+                    padding: '2px 8px', 
+                    borderRadius: '4px', 
+                    border: '0.5px solid rgba(255,255,255,0.15)', 
+                    color: 'rgba(255,255,255,0.5)',
+                    backgroundColor: 'rgba(255,255,255,0.02)',
+                    fontFamily: 'var(--font-mono)',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Progress Section */}
-      <div className="skill-progress-section">
-        <div className="skill-progress-header">
-          <span className="skill-progress-label">Expertise Level</span>
-          <span className="skill-percent-text">{skill.percent}%</span>
+      <div className="skill-progress-section" style={{ marginTop: 'auto' }}>
+        <div className="skill-progress-header" style={{ justifyContent: 'center', marginBottom: '4px' }}>
+          <span className="skill-percent-text" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>{skill.percent}%</span>
         </div>
         <div className="skill-bar-track">
           <motion.div
@@ -336,7 +359,10 @@ const Skills = ({ skills, showMarquee }: SkillsProps) => {
 
   return (
     <div className="skills-content">
-      <h2 className="skills-heading">Core skills</h2>
+      <h2 className="skills-heading">What I build with</h2>
+      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '6px', textAlign: 'center' }}>
+        Technologies I use daily to build secure, scalable systems
+      </p>
 
       {/* 3D Stack container */}
       <div className="skills-stack-wrapper">
@@ -393,7 +419,7 @@ const Skills = ({ skills, showMarquee }: SkillsProps) => {
 
       {/* Infinite Marquee */}
       <div className={`marquee-container${showMarquee ? ' visible' : ''}`}>
-        <div className="marquee-inner">
+        <div className="marquee-inner animate-marquee">
           {/* Duplicate content for seamless loop */}
           {[
             ...MARQUEE_ITEMS,
@@ -402,10 +428,9 @@ const Skills = ({ skills, showMarquee }: SkillsProps) => {
             <span 
               className="marquee-item" 
               key={`${item}-${i}`}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+              title={item}
             >
-              {renderSkillIcon(item)}
-              {item}
+              {renderSkillIcon(item, 38)}
             </span>
           ))}
         </div>
