@@ -1,0 +1,279 @@
+import { useState, useEffect, useRef, useCallback } from 'react';
+import hvImg from '../../assets/hv.jpg';
+import spkImg from '../../assets/SPK.png';
+import vibeImg from '../../assets/4.jpg';
+import agentImg from '../../assets/agent.jpg';
+
+interface Milestone {
+  date: string;
+  title: string;
+  detail: string;
+  side: 'left' | 'right';
+  image?: string;
+}
+
+interface TimelineProps {
+  milestones: Milestone[];
+  onNext: () => void;
+  onPrev: () => void;
+  currentSection: number;
+}
+
+const imageMap: Record<string, string> = {
+  'hv.jpg': hvImg,
+  'SPK.png': spkImg,
+  '4.jpg': vibeImg,
+  'agent.jpg': agentImg,
+};
+
+const getMilestoneImage = (title: string, imageField?: string) => {
+  if (imageField && imageMap[imageField]) {
+    return imageMap[imageField];
+  }
+  const normalizedTitle = title.toLowerCase();
+  if (normalizedTitle.includes('chuyên hùng vương') || normalizedTitle.includes('chuyên tin')) {
+    return hvImg;
+  }
+  if (normalizedTitle.includes('khoa học kỹ thuật')) {
+    return hvImg;
+  }
+  if (normalizedTitle.includes('hutech') || normalizedTitle.includes('hcmute') || normalizedTitle.includes('sư phạm kỹ thuật') || normalizedTitle.includes('spk')) {
+    return spkImg;
+  }
+  if (normalizedTitle.includes('vibe code')) {
+    return vibeImg;
+  }
+  if (normalizedTitle.includes('agentic') || normalizedTitle.includes('agent')) {
+    return agentImg;
+  }
+  return null;
+};
+
+const Timeline = ({ milestones, onNext, onPrev, currentSection }: TimelineProps) => {
+  const [visibleCount, setVisibleCount] = useState(0);
+  const [isCompact, setIsCompact] = useState(false);
+  const prevSectionRef = useRef<number>(currentSection);
+  const lastScrollTimeRef = useRef<number>(0);
+  const trackContainerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  // Sync visibleCount when section changes
+  useEffect(() => {
+    if (currentSection === 2) {
+      if (prevSectionRef.current < 2) {
+        // Entered from above (0 or 1)
+        setVisibleCount(0);
+      } else if (prevSectionRef.current > 2) {
+        // Entered from below (3 or 4)
+        setVisibleCount(milestones.length);
+      }
+    }
+    prevSectionRef.current = currentSection;
+  }, [currentSection, milestones.length]);
+
+  const triggerStep = useCallback((direction: number) => {
+    const now = Date.now();
+    if (now - lastScrollTimeRef.current < 800) {
+      return;
+    }
+
+    if (direction > 0) {
+      // Scrolling DOWN
+      if (visibleCount < milestones.length) {
+        setVisibleCount((prev) => prev + 1);
+        lastScrollTimeRef.current = now;
+      } else {
+        onNext();
+        lastScrollTimeRef.current = now;
+      }
+    } else {
+      // Scrolling UP
+      if (visibleCount > 0) {
+        setVisibleCount((prev) => prev - 1);
+        lastScrollTimeRef.current = now;
+      } else {
+        onPrev();
+        lastScrollTimeRef.current = now;
+      }
+    }
+  }, [visibleCount, milestones.length, onNext, onPrev]);
+
+  // Intercept scroll & swipe events
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (currentSection !== 2) return;
+      e.preventDefault();
+
+      const delta = e.deltaY;
+      if (Math.abs(delta) > 50) {
+        const direction = delta > 0 ? 1 : -1;
+        triggerStep(direction);
+      }
+    };
+
+    let touchStartY = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      if (currentSection !== 2) return;
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (currentSection !== 2) return;
+      const touchEndY = e.changedTouches[0].clientY;
+      const deltaY = touchStartY - touchEndY; // deltaY > 0 means swipe UP (scrolling DOWN)
+
+      if (Math.abs(deltaY) > 50) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+        const direction = deltaY > 0 ? 1 : -1;
+        triggerStep(direction);
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (currentSection !== 2) return;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        triggerStep(1);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        triggerStep(-1);
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: false });
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentSection, triggerStep]);
+
+  // Check last milestone height relative to container height for compact card layout
+  useEffect(() => {
+    const checkHeight = () => {
+      if (!trackRef.current || !trackContainerRef.current) return;
+
+      const milestoneElements = trackRef.current.querySelectorAll('.milestone');
+      if (milestoneElements.length === 0) return;
+
+      const lastElement = milestoneElements[milestoneElements.length - 1] as HTMLElement;
+      const containerHeight = trackContainerRef.current.clientHeight;
+
+      if (containerHeight > 0 && lastElement.offsetHeight > containerHeight * 0.35) {
+        setIsCompact(true);
+      } else {
+        setIsCompact(false);
+      }
+    };
+
+    // Run check after render lifecycle so heights are calculated
+    const timer = setTimeout(checkHeight, 100);
+    window.addEventListener('resize', checkHeight);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkHeight);
+    };
+  }, [milestones]);
+
+  // Auto-centering track vertical position
+  useEffect(() => {
+    if (!trackRef.current || !trackContainerRef.current) return;
+
+    const milestoneElements = trackRef.current.querySelectorAll('.milestone');
+    const activeIndex = Math.max(0, visibleCount - 1);
+    const activeElement = milestoneElements[activeIndex] as HTMLElement | undefined;
+
+    if (activeElement && visibleCount > 0) {
+      const containerHeight = trackContainerRef.current.clientHeight;
+      const elementOffsetTop = activeElement.offsetTop;
+      const elementHeight = activeElement.offsetHeight;
+
+      let targetTranslateY = (containerHeight / 2) - (elementOffsetTop + elementHeight / 2);
+
+      if (targetTranslateY > 0) {
+        targetTranslateY = 0;
+      }
+
+      const trackHeight = trackRef.current.scrollHeight;
+      const maxTranslateY = containerHeight - trackHeight;
+      if (targetTranslateY < maxTranslateY) {
+        if (trackHeight > containerHeight) {
+          targetTranslateY = maxTranslateY;
+        } else {
+          targetTranslateY = 0;
+        }
+      }
+
+      trackRef.current.style.transform = `translateY(${targetTranslateY}px)`;
+    } else {
+      trackRef.current.style.transform = 'translateY(0px)';
+    }
+  }, [visibleCount, milestones.length, isCompact]);
+
+  const fillPercent = milestones.length > 0
+    ? (visibleCount / milestones.length) * 100
+    : 0;
+
+  return (
+    <div className="timeline-content">
+      <h2 className="timeline-heading">Timeline</h2>
+      <div className="timeline-track-container" ref={trackContainerRef}>
+        <div className="timeline-track" ref={trackRef}>
+          {/* Background line */}
+          <div className="timeline-line" />
+          {/* Animated fill line */}
+          <div
+            className="timeline-line-fill"
+            style={{ height: `${fillPercent}%` }}
+          />
+
+          {milestones.map((ms, i) => {
+            const imgSrc = getMilestoneImage(ms.title, ms.image);
+            const isLast = i === milestones.length - 1;
+            const hasImage = !!imgSrc;
+            const cardClass = `milestone ${ms.side}` +
+              (i < visibleCount ? ' revealed' : '') +
+              (isLast ? ' last-milestone' : '') +
+              (hasImage ? ' has-image' : '') +
+              (isCompact && hasImage ? ' compact-card' : '');
+
+            return (
+              <div
+                key={`${ms.date}-${i}`}
+                className={cardClass}
+              >
+                <div className="milestone-dot" />
+                <div className="milestone-body">
+                  <span className="milestone-date">{ms.date}</span>
+                  <span className="milestone-title">{ms.title}</span>
+                  <span className="milestone-detail">{ms.detail}</span>
+                  {imgSrc && (
+                    <img
+                      src={imgSrc}
+                      alt={ms.title}
+                      className="milestone-image"
+                      onLoad={() => {
+                        // Re-trigger layout measurement when images load
+                        window.dispatchEvent(new Event('resize'));
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Timeline;

@@ -1,0 +1,14 @@
+[
+  { "name": "Java", "percent": 88, "logo": "" },
+  { "name": "TypeScript", "percent": 85, "logo": "" },
+  { "name": "Spring Boot", "percent": 80, "logo": "" },
+  { "name": "NestJS", "percent": 75, "logo": "" },
+  { "name": "Next.js", "percent": 78, "logo": "" },
+  { "name": "React", "percent": 82, "logo": "" },
+  { "name": "PostgreSQL", "percent": 76, "logo": "" },
+  { "name": "MongoDB", "percent": 74, "logo": "" },
+  { "name": "OWASP Top 10", "percent": 70, "logo": "" },
+  { "name": "Python", "percent": 65, "logo": "" },
+  { "name": "HTML/CSS/JS", "percent": 72, "logo": "" },
+  { "name": "Vite", "percent": 78, "logo": "" }
+]
