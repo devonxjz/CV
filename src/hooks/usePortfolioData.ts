@@ -101,7 +101,7 @@ export const usePortfolioData = () => {
   // Legacy cache clearing effect removed to allow active MissLost project loading
 
 
-  const updateProfile = (profile: Profile) => {
+  const setProfile = (profile: Profile) => {
     setState((prev) => {
       const updated = { ...prev, profile };
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
@@ -109,7 +109,7 @@ export const usePortfolioData = () => {
     });
   };
 
-  const updateSkills = (skills: Skill[]) => {
+  const setSkills = (skills: Skill[]) => {
     setState((prev) => {
       const updated = { ...prev, skills };
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
@@ -117,7 +117,7 @@ export const usePortfolioData = () => {
     });
   };
 
-  const updateMilestones = (milestones: Milestone[]) => {
+  const setMilestones = (milestones: Milestone[]) => {
     setState((prev) => {
       const updated = { ...prev, milestones };
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
@@ -125,7 +125,7 @@ export const usePortfolioData = () => {
     });
   };
 
-  const updateProjects = (projects: Project[]) => {
+  const setProjects = (projects: Project[]) => {
     setState((prev) => {
       const updated = { ...prev, projects };
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
@@ -133,7 +133,7 @@ export const usePortfolioData = () => {
     });
   };
 
-  const updateContact = (contact: ContactInfo) => {
+  const setContact = (contact: ContactInfo) => {
     setState((prev) => {
       const updated = { ...prev, contact };
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
@@ -172,20 +172,22 @@ export const usePortfolioData = () => {
     });
   };
 
-  // Return a hybrid object that satisfies both `const data = usePortfolioData()` (default import)
-  // and `const { data, updateProfile } = usePortfolioData()` (named import).
+  const loading = false;
+  const error = null;
+
   return {
-    data: state,
     profile: state.profile,
     skills: state.skills,
     milestones: state.milestones,
     projects: state.projects,
     contact: state.contact,
-    updateProfile,
-    updateSkills,
-    updateMilestones,
-    updateProjects,
-    updateContact,
+    setProfile,
+    setSkills,
+    setMilestones,
+    setProjects,
+    setContact,
+    loading,
+    error,
     exportData,
     resetData,
   };

@@ -13,12 +13,16 @@ type Section = 'profile' | 'skills' | 'milestones' | 'projects' | 'contact';
 export default function Admin() {
   const [activeSection, setActiveSection] = useState<Section>('profile');
   const {
-    data,
-    updateProfile,
-    updateSkills,
-    updateMilestones,
-    updateProjects,
-    updateContact,
+    profile,
+    skills,
+    milestones,
+    projects,
+    contact,
+    setProfile,
+    setSkills,
+    setMilestones,
+    setProjects,
+    setContact,
     exportData,
     resetData,
   } = usePortfolioData();
@@ -26,15 +30,15 @@ export default function Admin() {
   const renderEditor = () => {
     switch (activeSection) {
       case 'profile':
-        return <ProfileEditor data={data.profile} onSave={updateProfile} />;
+        return <ProfileEditor data={profile} onSave={setProfile} />;
       case 'skills':
-        return <SkillsEditor data={data.skills} onSave={updateSkills} />;
+        return <SkillsEditor data={skills} onSave={setSkills} />;
       case 'milestones':
-        return <MilestonesEditor data={data.milestones} onSave={updateMilestones} />;
+        return <MilestonesEditor data={milestones} onSave={setMilestones} />;
       case 'projects':
-        return <ProjectsEditor data={data.projects} onSave={updateProjects} />;
+        return <ProjectsEditor data={projects} onSave={setProjects} />;
       case 'contact':
-        return <ContactEditor data={data.contact} onSave={updateContact} />;
+        return <ContactEditor data={contact} onSave={setContact} />;
     }
   };
 

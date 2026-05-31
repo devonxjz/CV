@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import hvImg from '../../assets/hv.jpg';
 import spkImg from '../../assets/SPK.png';
 import vibeImg from '../../assets/4.jpg';
 import agentImg from '../../assets/agent.png';
+import usePageNavigation from '../../hooks/usePageNavigation';
 
 interface Milestone {
   date: string;
@@ -53,9 +54,9 @@ const Timeline = ({ milestones, onNext, onPrev, currentSection }: TimelineProps)
   const [visibleCount, setVisibleCount] = useState(0);
   const [isCompact, setIsCompact] = useState(false);
   const prevSectionRef = useRef<number>(currentSection);
-  const lastScrollTimeRef = useRef<number>(0);
   const trackContainerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const milestoneRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Sync visibleCount when section changes
   useEffect(() => {
@@ -71,99 +72,31 @@ const Timeline = ({ milestones, onNext, onPrev, currentSection }: TimelineProps)
     prevSectionRef.current = currentSection;
   }, [currentSection, milestones.length]);
 
-  const triggerStep = useCallback((direction: number) => {
-    const now = Date.now();
-    if (now - lastScrollTimeRef.current < 800) {
-      return;
-    }
-
-    if (direction > 0) {
-      // Scrolling DOWN
-      if (visibleCount < milestones.length) {
-        setVisibleCount((prev) => prev + 1);
-        lastScrollTimeRef.current = now;
-      } else {
-        onNext();
-        lastScrollTimeRef.current = now;
-      }
-    } else {
-      // Scrolling UP
-      if (visibleCount > 0) {
-        setVisibleCount((prev) => prev - 1);
-        lastScrollTimeRef.current = now;
-      } else {
-        onPrev();
-        lastScrollTimeRef.current = now;
-      }
-    }
-  }, [visibleCount, milestones.length, onNext, onPrev]);
-
-  // Intercept scroll & swipe events
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      if (currentSection !== 2) return;
-      e.preventDefault();
-
-      const delta = e.deltaY;
-      if (Math.abs(delta) > 50) {
-        const direction = delta > 0 ? 1 : -1;
-        triggerStep(direction);
-      }
-    };
-
-    let touchStartY = 0;
-    const handleTouchStart = (e: TouchEvent) => {
-      if (currentSection !== 2) return;
-      touchStartY = e.touches[0].clientY;
-    };
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      if (currentSection !== 2) return;
-      const touchEndY = e.changedTouches[0].clientY;
-      const deltaY = touchStartY - touchEndY; // deltaY > 0 means swipe UP (scrolling DOWN)
-
-      if (Math.abs(deltaY) > 50) {
-        if (e.cancelable) {
-          e.preventDefault();
-        }
-        const direction = deltaY > 0 ? 1 : -1;
-        triggerStep(direction);
-      }
-    };
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (currentSection !== 2) return;
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        triggerStep(1);
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        triggerStep(-1);
-      }
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: false });
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [currentSection, triggerStep]);
+  // Central page/substep navigation hook
+  usePageNavigation({
+    totalSections: 5,
+    currentSection,
+    onNavigate: (index) => {
+      if (index > 2) onNext();
+      else if (index < 2) onPrev();
+    },
+    lockedSection: 2,
+    subStepCount: milestones.length + 1,
+    currentSubStep: visibleCount,
+    onSubStepChange: setVisibleCount,
+    cooldownMs: 800,
+    disabled: currentSection !== 2,
+  });
 
   // Check last milestone height relative to container height for compact card layout
   useEffect(() => {
     const checkHeight = () => {
       if (!trackRef.current || !trackContainerRef.current) return;
 
-      const milestoneElements = trackRef.current.querySelectorAll('.milestone');
-      if (milestoneElements.length === 0) return;
+      const lastIndex = milestones.length - 1;
+      const lastElement = milestoneRefs.current[lastIndex];
+      if (!lastElement) return;
 
-      const lastElement = milestoneElements[milestoneElements.length - 1] as HTMLElement;
       const containerHeight = trackContainerRef.current.clientHeight;
 
       if (containerHeight > 0 && lastElement.offsetHeight > containerHeight * 0.35) {
@@ -187,9 +120,8 @@ const Timeline = ({ milestones, onNext, onPrev, currentSection }: TimelineProps)
   useEffect(() => {
     if (!trackRef.current || !trackContainerRef.current) return;
 
-    const milestoneElements = trackRef.current.querySelectorAll('.milestone');
     const activeIndex = Math.max(0, visibleCount - 1);
-    const activeElement = milestoneElements[activeIndex] as HTMLElement | undefined;
+    const activeElement = milestoneRefs.current[activeIndex];
 
     if (activeElement && visibleCount > 0) {
       const containerHeight = trackContainerRef.current.clientHeight;
@@ -252,6 +184,7 @@ const Timeline = ({ milestones, onNext, onPrev, currentSection }: TimelineProps)
               <div
                 key={`${ms.date}-${i}`}
                 className={cardClass}
+                ref={el => { milestoneRefs.current[i] = el; }}
               >
                 <div className="milestone-dot" />
                 <div className="milestone-body">
