@@ -11,6 +11,7 @@ import Timeline from '../components/portfolio/Timeline';
 import Projects from '../components/portfolio/Projects';
 import Contact from '../components/portfolio/Contact';
 import CustomScrollbar from '../components/portfolio/CustomScrollbar';
+import SectionDots from '../components/portfolio/SectionDots';
 import ScrollHint from '../components/portfolio/ScrollHint';
 import videoUrl from '../assets/video.mp4';
 
@@ -77,9 +78,6 @@ const Portfolio = () => {
     return () => window.removeEventListener('mousemove', onMouseMove);
   }, []);
 
-  const gridX = -mousePos.x * 0.012;
-  const gridY = -mousePos.y * 0.012;
-
   const sectionClass = (index: number) => {
     if (currentSection === index) {
       return 'portfolio-section active visible';
@@ -91,10 +89,7 @@ const Portfolio = () => {
   };
 
   return (
-    <div
-      className="portfolio-wrap"
-      style={{ backgroundPosition: `${gridX}px ${gridY}px` }}
-    >
+    <div className="portfolio-wrap">
       <BackgroundCanvas
         mouseX={mousePos.x}
         mouseY={mousePos.y}
@@ -160,6 +155,11 @@ const Portfolio = () => {
       <CustomScrollbar
         currentSection={currentSection}
         totalSections={TOTAL_SECTIONS}
+      />
+      <SectionDots
+        currentSection={currentSection}
+        totalSections={TOTAL_SECTIONS}
+        goToSection={goToSection}
       />
       <ScrollHint hidden={currentSection === TOTAL_SECTIONS - 1} />
     </div>

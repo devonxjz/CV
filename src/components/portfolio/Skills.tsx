@@ -213,7 +213,7 @@ const MotionSkillCard = ({
           {renderSkillIcon(skill.name, 64)}
         </div>
         <div className="skill-info" style={{ gap: '8px', width: '100%' }}>
-          <h3 className="skill-title" style={{ fontWeight: 600 }}>{skill.name}</h3>
+          <h3 className="skill-title" style={{ fontWeight: 600, color: brandColor }}>{skill.name}</h3>
           {skill.tags && skill.tags.length > 0 && (
             <div style={{ display: 'flex', flexDirection: 'row', gap: '6px', flexWrap: 'wrap', justifyContent: 'center', width: '100%', marginTop: '2px' }}>
               {skill.tags.map(tag => (
@@ -223,9 +223,9 @@ const MotionSkillCard = ({
                     fontSize: '10px', 
                     padding: '2px 8px', 
                     borderRadius: '4px', 
-                    border: '0.5px solid rgba(255,255,255,0.15)', 
-                    color: 'rgba(255,255,255,0.5)',
-                    backgroundColor: 'rgba(255,255,255,0.02)',
+                    border: `0.5px solid ${brandColor}40`,
+                    color: brandColor,
+                    backgroundColor: `${brandColor}08`,
                     fontFamily: 'var(--font-mono)',
                     whiteSpace: 'nowrap'
                   }}
@@ -241,11 +241,12 @@ const MotionSkillCard = ({
       {/* Progress Section */}
       <div className="skill-progress-section" style={{ marginTop: 'auto' }}>
         <div className="skill-progress-header" style={{ justifyContent: 'center', marginBottom: '4px' }}>
-          <span className="skill-percent-text" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>{skill.percent}%</span>
+          <span className="skill-percent-text" style={{ fontSize: '12px', color: brandColor, fontWeight: 600 }}>{skill.percent}%</span>
         </div>
         <div className="skill-bar-track">
           <motion.div
             className="skill-bar-fill"
+            style={{ background: brandColor }}
             initial={{ width: 0 }}
             animate={{ width: `${skill.percent}%` }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}

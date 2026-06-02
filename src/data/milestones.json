@@ -1,42 +1,42 @@
 [
   {
     "date": "2021",
-    "title": "Chuyên Tin — THPT Chuyên Hùng Vương",
-    "detail": "Thi đậu lớp Chuyên Tin tại trường THPT Chuyên Hùng Vương, Pleiku, Gia Lai",
+    "title": "Hung Vuong High School for the Gifted",
+    "detail": "Admitted to the <strong>Computer Science</strong> specialized class at <strong>Hung Vuong High School for the Gifted</strong> (Gia Lai), building a strong foundation in <strong>algorithmic thinking</strong>.",
     "side": "left",
     "image": "hv.jpg"
   },
   {
     "date": "2022",
-    "title": "Giải 3 Khoa học Kỹ thuật cấp trường",
-    "detail": "Đạt giải 3 cuộc thi Khoa học Kỹ thuật cấp trường THPT Chuyên Hùng Vương",
+    "title": "3rd Prize in Science & Tech Contest",
+    "detail": "Won <strong>3rd Prize</strong> in the School-level Science & Technology Contest with an innovative technology application project.",
     "side": "right",
     "image": "hv.jpg"
   },
   {
     "date": "2023",
-    "title": "HSG Tin học Bảng A cấp Thành phố",
-    "detail": "Tham gia kỳ thi Học sinh giỏi môn Tin học Bảng A cấp Thành phố",
+    "title": "Excellent Student Contest in CS",
+    "detail": "Selected member of the City-level <strong>competitive programming</strong> team (Group A) in Computer Science.",
     "side": "left"
   },
   {
     "date": "2024",
-    "title": "Nhập học CNTT — HCMUTE",
-    "detail": "Sinh viên ngành Công nghệ Thông tin tại Trường Đại học Sư phạm Kỹ thuật TP.HCM",
+    "title": "Computer Science at HCMUTE",
+    "detail": "Began pursuing Bachelor's in <strong>Computer Science</strong> at HCMC University of Technology and Education (<strong>HCMUTE</strong>) with focus on <strong>backend</strong> and <strong>information security</strong>.",
     "side": "right",
     "image": "SPK.png"
   },
   {
     "date": "2025",
-    "title": "Bán kết Vibe Code — ĐH Tôn Đức Thắng",
-    "detail": "Lọt vào vòng bán kết cuộc thi Vibe Code do Đại học Tôn Đức Thắng tổ chức",
+    "title": "Vibe Code Semifinalist",
+    "detail": "Reached the <strong>Semifinals</strong> of <strong>Vibe Code</strong> Competitive Programming Contest, competing in algorithmic challenges against hundreds of students.",
     "side": "left",
     "image": "4.jpg"
   },
   {
     "date": "2025",
     "title": "AI Agentic Builder Week — ASEAN Hackathon",
-    "detail": "Tham dự AI Hackathon lớn nhất Đông Nam Á với sự tham gia của các nước ASEAN",
+    "detail": "Participated in the premier regional <strong>ASEAN Hackathon</strong>, designing and co-developing a functional <strong>AI Agent</strong> solution within a 48-hour sprint.",
     "side": "right",
     "image": "agent.png"
   }

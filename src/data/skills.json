@@ -1,14 +1,14 @@
 [
-  { "name": "Java", "percent": 88, "logo": "", "tags": ["OOP", "Backend", "DSA"] },
-  { "name": "TypeScript", "percent": 85, "logo": "", "tags": ["Type-safe", "Node", "API"] },
-  { "name": "Spring Boot", "percent": 80, "logo": "", "tags": ["REST API", "Microservices", "Auth"] },
-  { "name": "NestJS", "percent": 75, "logo": "", "tags": ["GraphQL", "WebSocket", "DI"] },
-  { "name": "Next.js", "percent": 78, "logo": "", "tags": ["SSR", "SEO", "Full-stack"] },
-  { "name": "React", "percent": 82, "logo": "", "tags": ["SPA", "Hooks", "UI"] },
-  { "name": "PostgreSQL", "percent": 76, "logo": "", "tags": ["Relational DB", "Query", "ORM"] },
-  { "name": "MongoDB", "percent": 74, "logo": "", "tags": ["NoSQL", "Atlas", "Aggregation"] },
-  { "name": "OWASP Top 10", "percent": 70, "logo": "", "tags": ["Pentesting", "Security", "CTF"] },
-  { "name": "Python", "percent": 65, "logo": "", "tags": ["Scripting", "Automation", "AI"] },
-  { "name": "HTML/CSS/JS", "percent": 72, "logo": "", "tags": ["Responsive", "Animation", "DOM"] },
-  { "name": "Vite", "percent": 78, "logo": "", "tags": ["Build tool", "HMR", "ESM"] }
+  { "name": "Java", "percent": 88, "logo": "", "tags": ["Multithreading", "JVM", "OOP"] },
+  { "name": "TypeScript", "percent": 85, "logo": "", "tags": ["Type Safety", "Node.js", "REST APIs"] },
+  { "name": "Spring Boot", "percent": 80, "logo": "", "tags": ["Spring Security", "Microservices", "REST APIs"] },
+  { "name": "NestJS", "percent": 75, "logo": "", "tags": ["GraphQL", "WebSockets", "TypeORM"] },
+  { "name": "Next.js", "percent": 78, "logo": "", "tags": ["App Router", "SSR", "SEO"] },
+  { "name": "React", "percent": 82, "logo": "", "tags": ["Hooks", "State Mgmt", "Performance"] },
+  { "name": "PostgreSQL", "percent": 76, "logo": "", "tags": ["Indexing", "SQL Optimization", "Relational DB"] },
+  { "name": "MongoDB", "percent": 74, "logo": "", "tags": ["NoSQL", "Mongoose", "Aggregation"] },
+  { "name": "OWASP Top 10", "percent": 70, "logo": ["shield"], "tags": ["Secure Coding", "Web Pentesting", "Burp Suite"] },
+  { "name": "Python", "percent": 65, "logo": "", "tags": ["Scripting", "Automation", "Data Parsing"] },
+  { "name": "HTML/CSS/JS", "percent": 72, "logo": "", "tags": ["Responsive", "Animations", "DOM"] },
+  { "name": "Vite", "percent": 78, "logo": "", "tags": ["Build Tools", "HMR", "ESM"] }
 ]

@@ -1,24 +1,25 @@
 [
   {
     "title": "TrackGuard",
-    "description": "Hệ thống phát hiện xâm nhập và giám sát ra vào thông minh real-time sử dụng RFID, ESP32 và cảm biến bảo mật.",
+    "description": "A <strong>real-time smart access control</strong> and intrusion detection system. Integrated <strong>ESP32</strong> hardware and <strong>RFID</strong> readers with a secure backend to stream security alerts via <strong>WebSockets</strong>.",
     "image": "",
     "dotColor": "#6da4ff",
     "tags": [
       "ESP32",
       "RFID",
       "IoT",
+      "WebSockets",
       "Security"
     ],
     "role": "IoT & FullStack Developer",
     "github": "",
     "liveUrl": "https://smart-office-access-control-attendance-system-cqr74gqf2.vercel.app/",
     "period": "05/2026",
-    "impact": "Phát hiện xâm nhập real-time, giảm response time 60%"
+    "impact": "Real-time threat detection, reducing response time by <strong>60%</strong>"
   },
   {
     "title": "VibeTDU ChemLab",
-    "description": "ChemLab (VibeTDU) là một nền tảng web mô phỏng phòng thí nghiệm hóa học ảo tương tác đột phá, cung cấp không gian thực nghiệm ảo tuyệt đối an toàn và trực quan sinh động.",
+    "description": "An interactive web-based <strong>virtual chemistry laboratory simulator</strong>. Leveraged <strong>HTML5 Canvas</strong> for real-time visualization of chemical reactions and physics rendering.",
     "image": "/assets/vibeTDU.png",
     "dotColor": "#d97706",
     "tags": [
@@ -31,40 +32,40 @@
     "github": "",
     "liveUrl": "https://vibe-cu9aj8mk5-tranlethais-projects.vercel.app/",
     "period": "04/2026",
-    "impact": "Hơn 1,000 lượt thí nghiệm ảo được thực hiện an toàn"
+    "impact": "<strong>1,000+</strong> interactive virtual experiments performed safely"
   },
   {
     "title": "MissLost",
-    "description": "Nền tảng web giúp kết nối, đăng tin và tìm kiếm đồ đạc thất lạc hoặc nhặt được trong khuôn viên trường học một cách nhanh chóng và an toàn.",
+    "description": "A campus-wide portal for lost and found items. Powered by <strong>real-time updates</strong> and <strong>secure verification workflows</strong> to connect owners and finders quickly.",
     "image": "",
     "dotColor": "#a78bfa",
     "tags": [
       "React",
       "Firebase",
-      "Realtime",
-      "Campus"
+      "Realtime DB",
+      "Campus UX"
     ],
     "role": "Full-Stack Developer",
     "github": "",
     "liveUrl": "https://osint-d3sduo6qg-tranlethais-projects.vercel.app/",
     "period": "03/2026",
-    "impact": "Kết nối người mất đồ với người nhặt được trong campus"
+    "impact": "Connected <strong>hundreds of students</strong> to recover lost assets"
   },
   {
     "title": "CV-Agent",
-    "description": "Nền tảng phân tích và đánh giá CV bằng trí tuệ nhân tạo thông minh. Đánh giá chi tiết từ góc nhìn Technical Recruiter, cung cấp gợi ý nâng cấp CV vượt qua vòng lọc hồ sơ.",
+    "description": "An <strong>AI-driven resume rating</strong> and parsing platform. Uses <strong>LLMs</strong> for document evaluation from a recruiter's perspective, offering actionable suggestions for <strong>ATS score optimization</strong>.",
     "image": "/assets/cv-agent.png",
     "dotColor": "#06b6d4",
     "tags": [
       "React",
-      "Google Gemini AI",
+      "Gemini AI",
       "Node.js",
-      "JWT"
+      "ATS Parser"
     ],
     "role": "Fullstack AI Engineer",
     "github": "https://github.com/devonxjz/CV-Agent.git",
     "liveUrl": "",
     "period": "01/2026 - 03/2026",
-    "impact": "Tự động hóa phân tích CV, tiết kiệm 80% thời gian review"
+    "impact": "Automated resume analysis, reducing screening time by <strong>80%</strong>"
   }
 ]

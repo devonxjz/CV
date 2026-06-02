@@ -1,3 +1,18 @@
+const renderWithHighlights = (text: string) => {
+  if (!text) return null;
+  const regex = /(<b>.*?<\/b>|<strong>.*?<\/strong>)/g;
+  const parts = text.split(regex);
+  return parts.map((part, index) => {
+    if (part.startsWith('<b>') && part.endsWith('</b>')) {
+      return <strong key={index} className="key-highlight">{part.slice(3, -4)}</strong>;
+    }
+    if (part.startsWith('<strong>') && part.endsWith('</strong>')) {
+      return <strong key={index} className="key-highlight">{part.slice(8, -9)}</strong>;
+    }
+    return part;
+  });
+};
+
 interface HeroProps {
   profile: {
     tag: string;
@@ -31,7 +46,13 @@ const Hero = ({ profile, goToSection }: HeroProps) => {
         {profile.headline.includes(profile.highlightText || "Deployed to defend.") ? (
           <>
             {profile.headline.split(profile.highlightText || "Deployed to defend.")[0]}
-            <span style={{ color: '#6da4ff', textShadow: '0 0 25px rgba(109,164,255,0.45)' }}>
+            <span style={{
+              background: 'linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-pink) 50%, var(--accent-amber) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 0 35px rgba(0, 210, 255, 0.25)',
+              fontWeight: 700
+            }}>
               {profile.highlightText || "Deployed to defend."}
             </span>
             {profile.headline.split(profile.highlightText || "Deployed to defend.")[1]}
@@ -42,7 +63,7 @@ const Hero = ({ profile, goToSection }: HeroProps) => {
       </h1>
 
       <p className="hero-sub drop-shadow-[0_8px_10px_rgba(0,0,0,1)]">
-        {profile.subtext}
+        {renderWithHighlights(profile.subtext)}
       </p>
 
       <div className="hero-actions">

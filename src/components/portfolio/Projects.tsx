@@ -4,6 +4,21 @@ import heroImg from '../../assets/hero.png';
 import cvAgentImg from '../../assets/cv-agent.png';
 import vibeTDUImg from '../../assets/vibeTDU.png';
 
+const renderWithHighlights = (text?: string) => {
+  if (!text) return null;
+  const regex = /(<b>.*?<\/b>|<strong>.*?<\/strong>)/g;
+  const parts = text.split(regex);
+  return parts.map((part, index) => {
+    if (part.startsWith('<b>') && part.endsWith('</b>')) {
+      return <strong key={index} className="key-highlight">{part.slice(3, -4)}</strong>;
+    }
+    if (part.startsWith('<strong>') && part.endsWith('</strong>')) {
+      return <strong key={index} className="key-highlight">{part.slice(8, -9)}</strong>;
+    }
+    return part;
+  });
+};
+
 interface Project {
   title: string;
   description: string;
@@ -63,12 +78,12 @@ const Projects = ({ projects }: ProjectsProps) => {
                   )}
                 </div>
 
-                <p className="project-square-desc">{project.description}</p>
+                <p className="project-square-desc">{renderWithHighlights(project.description)}</p>
                 
                 {project.impact && (
                   <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline', gap: '4px', marginTop: '4px', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '10px', color: '#6da4ff', fontWeight: 600, fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>Impact ·</span>
-                    <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.55)', lineHeight: '1.4' }}>{project.impact}</span>
+                    <span style={{ fontSize: '10px', color: 'var(--accent-blue)', fontWeight: 600, fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>Impact ·</span>
+                    <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.55)', lineHeight: '1.4' }}>{renderWithHighlights(project.impact)}</span>
                   </div>
                 )}
                 

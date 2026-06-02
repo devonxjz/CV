@@ -5,6 +5,21 @@ import vibeImg from '../../assets/4.jpg';
 import agentImg from '../../assets/agent.png';
 import usePageNavigation from '../../hooks/usePageNavigation';
 
+const renderWithHighlights = (text: string) => {
+  if (!text) return null;
+  const regex = /(<b>.*?<\/b>|<strong>.*?<\/strong>)/g;
+  const parts = text.split(regex);
+  return parts.map((part, index) => {
+    if (part.startsWith('<b>') && part.endsWith('</b>')) {
+      return <strong key={index} className="key-highlight">{part.slice(3, -4)}</strong>;
+    }
+    if (part.startsWith('<strong>') && part.endsWith('</strong>')) {
+      return <strong key={index} className="key-highlight">{part.slice(8, -9)}</strong>;
+    }
+    return part;
+  });
+};
+
 interface Milestone {
   date: string;
   title: string;
@@ -190,7 +205,7 @@ const Timeline = ({ milestones, onNext, onPrev, currentSection }: TimelineProps)
                 <div className="milestone-body">
                   <span className="milestone-date">{ms.date}</span>
                   <span className="milestone-title">{ms.title}</span>
-                  <span className="milestone-detail">{ms.detail}</span>
+                  <span className="milestone-detail">{renderWithHighlights(ms.detail)}</span>
                   {imgSrc && (
                     <img
                       src={imgSrc}

@@ -20,30 +20,31 @@ interface Glyph {
 
 // Section background shapes config with modern blueprint design elements
 const sectionShapes: Record<number, { type: string; x: number; y: number; size: number; color: string }[]> = {
-  0: [ // Hero: Large soft blue circle glow + Concentric blueprint rings + Crosshair focus
-    { type: 'circle', x: 0.8, y: 0.25, size: 450, color: 'rgba(109, 164, 255, 0.18)' },
-    { type: 'circle', x: 0.2, y: 0.85, size: 300, color: 'rgba(167, 139, 250, 0.08)' },
-    { type: 'rings', x: 0.8, y: 0.25, size: 250, color: 'rgba(109, 164, 255, 0.07)' },
-    { type: 'crosshair', x: 0.5, y: 0.5, size: 96, color: 'rgba(109, 164, 255, 0.08)' },
+  0: [ // Hero: Large soft coral circle glow + Concentric blueprint rings + Crosshair focus
+    { type: 'circle', x: 0.8, y: 0.25, size: 450, color: 'rgba(244, 63, 94, 0.22)' }, // Rose glow
+    { type: 'circle', x: 0.2, y: 0.85, size: 300, color: 'rgba(59, 130, 246, 0.16)' }, // Cobalt glow
+    { type: 'rings', x: 0.8, y: 0.25, size: 250, color: 'rgba(245, 158, 11, 0.12)' }, // Amber rings
+    { type: 'crosshair', x: 0.5, y: 0.5, size: 96, color: 'rgba(244, 63, 94, 0.14)' },
   ],
-  1: [ // Skills: Green circle glow + tech cross grid matrix
-    { type: 'circle', x: 0.75, y: 0.75, size: 400, color: 'rgba(52, 211, 153, 0.16)' },
-    { type: 'circle', x: 0.2, y: 0.35, size: 280, color: 'rgba(109, 164, 255, 0.06)' },
-    { type: 'crosses', x: 0.25, y: 0.3, size: 80, color: 'rgba(52, 211, 153, 0.12)' },
+  1: [ // Skills: Emerald glow + tech cross grid matrix
+    { type: 'circle', x: 0.75, y: 0.75, size: 400, color: 'rgba(16, 185, 129, 0.20)' }, // Bright Emerald
+    { type: 'circle', x: 0.2, y: 0.35, size: 280, color: 'rgba(6, 182, 212, 0.16)' }, // Bright Cyan
+    { type: 'crosses', x: 0.25, y: 0.3, size: 80, color: 'rgba(234, 179, 8, 0.15)' }, // Vivid Gold
   ],
-  2: [ // Timeline: Central purple glow + radar blueprint rings
-    { type: 'circle', x: 0.5, y: 0.5, size: 500, color: 'rgba(167, 139, 250, 0.18)' },
-    { type: 'rings', x: 0.5, y: 0.5, size: 320, color: 'rgba(167, 139, 250, 0.08)' },
+  2: [ // Timeline: Central violet glow + radar blueprint rings
+    { type: 'circle', x: 0.5, y: 0.5, size: 500, color: 'rgba(139, 92, 246, 0.22)' }, // Vivid Violet
+    { type: 'circle', x: 0.8, y: 0.8, size: 300, color: 'rgba(236, 72, 153, 0.15)' }, // Hot Pink
+    { type: 'rings', x: 0.5, y: 0.5, size: 320, color: 'rgba(139, 92, 246, 0.10)' },
   ],
-  3: [ // Projects: Diagonal glows + technical framing corners
-    { type: 'circle', x: 0.1, y: 0.1, size: 420, color: 'rgba(109, 164, 255, 0.16)' },
-    { type: 'circle', x: 0.9, y: 0.9, size: 420, color: 'rgba(167, 139, 250, 0.14)' },
-    { type: 'corners', x: 0.5, y: 0.5, size: 560, color: 'rgba(255, 255, 255, 0.035)' },
+  3: [ // Projects: Cyan/Blue diagonal glows + technical framing corners
+    { type: 'circle', x: 0.1, y: 0.1, size: 420, color: 'rgba(56, 189, 248, 0.20)' }, // Cyan Sky
+    { type: 'circle', x: 0.9, y: 0.9, size: 420, color: 'rgba(99, 102, 241, 0.18)' }, // Vivid Indigo
+    { type: 'corners', x: 0.5, y: 0.5, size: 560, color: 'rgba(255, 255, 255, 0.05)' },
   ],
-  4: [ // Contact: Twin glowing spheres + Connecting alignment line
-    { type: 'circle', x: 0.15, y: 0.85, size: 380, color: 'rgba(167, 139, 250, 0.15)' },
-    { type: 'circle', x: 0.85, y: 0.15, size: 380, color: 'rgba(109, 164, 255, 0.15)' },
-    { type: 'line', x: 0.5, y: 0.5, size: 1, color: 'rgba(255, 255, 255, 0.05)' },
+  4: [ // Contact: Golden orange/indigo Twin glowing spheres + Connecting alignment line
+    { type: 'circle', x: 0.15, y: 0.85, size: 380, color: 'rgba(249, 115, 22, 0.20)' }, // Golden Amber/Orange
+    { type: 'circle', x: 0.85, y: 0.15, size: 380, color: 'rgba(99, 102, 241, 0.20)' }, // Indigo Glow
+    { type: 'line', x: 0.5, y: 0.5, size: 1, color: 'rgba(255, 255, 255, 0.08)' },
   ],
 };
 
@@ -118,7 +119,7 @@ const BackgroundCanvas = ({ mouseX, mouseY, currentSection }: BackgroundCanvasPr
 
       ctx.clearRect(0, 0, cw, ch);
 
-      const parallaxFactor = 0.008;
+      const parallaxFactor = 0;
       const centerX = cw / 2;
       const centerY = ch / 2;
 
@@ -300,13 +301,8 @@ const BackgroundCanvas = ({ mouseX, mouseY, currentSection }: BackgroundCanvasPr
 
       // 3. Cursor hover glow (flashlight tracking) - smooth white orb lerp
       if (mouseXRef.current > 0 || mouseYRef.current > 0) {
-        if (currentMouseX.current === 0 && currentMouseY.current === 0) {
-          currentMouseX.current = mouseXRef.current;
-          currentMouseY.current = mouseYRef.current;
-        } else {
-          currentMouseX.current += (mouseXRef.current - currentMouseX.current) * 0.08;
-          currentMouseY.current += (mouseYRef.current - currentMouseY.current) * 0.08;
-        }
+        currentMouseX.current = mouseXRef.current;
+        currentMouseY.current = mouseYRef.current;
 
         ctx.save();
         const glowGradient = ctx.createRadialGradient(

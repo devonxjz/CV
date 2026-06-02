@@ -44,7 +44,7 @@ const Contact = ({ contact }: ContactProps) => {
   return (
     <div className="contact-content">
       <h2 className="contact-heading">Let's build something</h2>
-      <p className="contact-subtext" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '4px' }}>
+      <p className="contact-subtext">
         Available for internships and collaboration
       </p>
       <div className="contact-buttons">
@@ -52,7 +52,7 @@ const Contact = ({ contact }: ContactProps) => {
           link.url ? (
             <a
               key={link.label}
-              className="contact-btn"
+              className={`contact-btn btn-${link.label.toLowerCase()}`}
               href={link.url}
               target="_blank"
               rel="noopener noreferrer"
@@ -61,7 +61,7 @@ const Contact = ({ contact }: ContactProps) => {
               {link.label}
             </a>
           ) : (
-            <span key={link.label} className="contact-btn" style={{ opacity: 0.3, cursor: 'not-allowed' }}>
+            <span key={link.label} className={`contact-btn btn-${link.label.toLowerCase()}`} style={{ opacity: 0.3, cursor: 'not-allowed' }}>
               {link.icon}
               {link.label}
             </span>
