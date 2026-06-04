@@ -172,7 +172,7 @@ const Timeline = ({ milestones, onNext, onPrev, currentSection }: TimelineProps)
   return (
     <div className="timeline-content">
       <h2 className="timeline-heading">My Journey</h2>
-      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', textAlign: 'center' }}>
+      <p className="section-subtitle" style={{ marginTop: '4px' }}>
         From high school to hackathons
       </p>
       <div className="timeline-track-container" ref={trackContainerRef}>

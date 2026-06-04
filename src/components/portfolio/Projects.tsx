@@ -3,6 +3,7 @@ import spkImg from '../../assets/SPK.png';
 import heroImg from '../../assets/hero.png';
 import cvAgentImg from '../../assets/cv-agent.png';
 import vibeTDUImg from '../../assets/vibeTDU.png';
+import osintImg from '../../assets/osint.png';
 
 const renderWithHighlights = (text?: string) => {
   if (!text) return null;
@@ -41,7 +42,8 @@ const getProjectImage = (title: string, jsonImage?: string) => {
   const cleanTitle = title.toLowerCase();
   if (cleanTitle.includes('vibe') || cleanTitle.includes('chemlab')) return vibeTDUImg;
   if (cleanTitle.includes('smart') || cleanTitle.includes('office') || cleanTitle.includes('trackguard')) return agentImg;
-  if (cleanTitle.includes('osint') || cleanTitle.includes('misslost')) return spkImg;
+  if (cleanTitle.includes('osint')) return osintImg;
+  if (cleanTitle.includes('misslost')) return spkImg;
   if (cleanTitle.includes('cv-agent') || cleanTitle.includes('cv agent') || cleanTitle.includes('cv analyzer')) return cvAgentImg;
   return heroImg;
 };
@@ -50,7 +52,7 @@ const Projects = ({ projects }: ProjectsProps) => {
   return (
     <div className="projects-content">
       <h2 className="projects-heading">What I've built</h2>
-      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '6px', textAlign: 'center', marginBottom: '24px' }}>
+      <p className="section-subtitle" style={{ marginBottom: '24px' }}>
         Selected projects with real-world impact
       </p>
       <div className="projects-grid">

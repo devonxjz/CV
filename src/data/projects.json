@@ -67,5 +67,22 @@
     "liveUrl": "",
     "period": "01/2026 - 03/2026",
     "impact": "Automated resume analysis, reducing screening time by <strong>80%</strong>"
+  },
+  {
+    "title": "OSINT TRACKER",
+    "description": "The project aims to create a web platform that automates the process of collecting, analyzing, and visualizing open-source intelligence (OSINT) data. It features a dashboard that displays real-time information about targets, including social media profiles, news articles, and public records. The platform uses advanced algorithms to identify patterns and connections within the data, providing users with actionable insights. The system is built with a user-friendly interface, allowing for easy navigation and data interpretation. Additionally, it incorporates security features to protect sensitive information and ensure compliance with privacy regulations.",
+    "image": "",
+    "dotColor": "#a78bfa",
+    "tags": [
+      "TypeScript",
+      "NextJS",
+      "TailwindCSS",
+      "Svelte"
+    ],
+    "role": "Full-Stack Developer",
+    "github": "https://github.com/devonxjz/osint.git",
+    "liveUrl": "https://osint-six-weld.vercel.app/",
+    "period": "03/2026",
+    "impact": "Connected <strong>hundreds of students</strong> to recover lost assets"
   }
 ]

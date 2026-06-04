@@ -26,26 +26,6 @@ const sectionShapes: Record<number, { type: string; x: number; y: number; size: 
     { type: 'rings', x: 0.8, y: 0.25, size: 250, color: 'rgba(245, 158, 11, 0.12)' }, // Amber rings
     { type: 'crosshair', x: 0.5, y: 0.5, size: 96, color: 'rgba(244, 63, 94, 0.14)' },
   ],
-  1: [ // Skills: Emerald glow + tech cross grid matrix
-    { type: 'circle', x: 0.75, y: 0.75, size: 400, color: 'rgba(16, 185, 129, 0.20)' }, // Bright Emerald
-    { type: 'circle', x: 0.2, y: 0.35, size: 280, color: 'rgba(6, 182, 212, 0.16)' }, // Bright Cyan
-    { type: 'crosses', x: 0.25, y: 0.3, size: 80, color: 'rgba(234, 179, 8, 0.15)' }, // Vivid Gold
-  ],
-  2: [ // Timeline: Central violet glow + radar blueprint rings
-    { type: 'circle', x: 0.5, y: 0.5, size: 500, color: 'rgba(139, 92, 246, 0.22)' }, // Vivid Violet
-    { type: 'circle', x: 0.8, y: 0.8, size: 300, color: 'rgba(236, 72, 153, 0.15)' }, // Hot Pink
-    { type: 'rings', x: 0.5, y: 0.5, size: 320, color: 'rgba(139, 92, 246, 0.10)' },
-  ],
-  3: [ // Projects: Cyan/Blue diagonal glows + technical framing corners
-    { type: 'circle', x: 0.1, y: 0.1, size: 420, color: 'rgba(56, 189, 248, 0.20)' }, // Cyan Sky
-    { type: 'circle', x: 0.9, y: 0.9, size: 420, color: 'rgba(99, 102, 241, 0.18)' }, // Vivid Indigo
-    { type: 'corners', x: 0.5, y: 0.5, size: 560, color: 'rgba(255, 255, 255, 0.05)' },
-  ],
-  4: [ // Contact: Golden orange/indigo Twin glowing spheres + Connecting alignment line
-    { type: 'circle', x: 0.15, y: 0.85, size: 380, color: 'rgba(249, 115, 22, 0.20)' }, // Golden Amber/Orange
-    { type: 'circle', x: 0.85, y: 0.15, size: 380, color: 'rgba(99, 102, 241, 0.20)' }, // Indigo Glow
-    { type: 'line', x: 0.5, y: 0.5, size: 1, color: 'rgba(255, 255, 255, 0.08)' },
-  ],
 };
 
 const BackgroundCanvas = ({ mouseX, mouseY, currentSection }: BackgroundCanvasProps) => {
@@ -300,7 +280,8 @@ const BackgroundCanvas = ({ mouseX, mouseY, currentSection }: BackgroundCanvasPr
       }
 
       // 3. Cursor hover glow (flashlight tracking) - smooth white orb lerp
-      if (mouseXRef.current > 0 || mouseYRef.current > 0) {
+      const section0Alpha = currentAlphas.current[0] || 0;
+      if ((mouseXRef.current > 0 || mouseYRef.current > 0) && section0Alpha > 0.005) {
         currentMouseX.current = mouseXRef.current;
         currentMouseY.current = mouseYRef.current;
 
@@ -313,7 +294,7 @@ const BackgroundCanvas = ({ mouseX, mouseY, currentSection }: BackgroundCanvasPr
           currentMouseY.current,
           60 // radius = 60px for 120px diameter
         );
-        glowGradient.addColorStop(0, 'rgba(255, 255, 255, 0.10)'); // soft white radial gradient (opacity 0.10)
+        glowGradient.addColorStop(0, `rgba(255, 255, 255, ${0.10 * section0Alpha})`); // soft white radial gradient (opacity 0.10)
         glowGradient.addColorStop(1, 'transparent');
         ctx.fillStyle = glowGradient;
         ctx.beginPath();
@@ -334,10 +315,13 @@ const BackgroundCanvas = ({ mouseX, mouseY, currentSection }: BackgroundCanvasPr
         if (g.y < 0) g.y = ch;
         if (g.y > ch) g.y = 0;
 
+        const currentOpacity = g.opacity * section0Alpha;
+        if (currentOpacity < 0.005) continue;
+
         ctx.save();
         ctx.translate(g.x, g.y);
         ctx.rotate(g.angle);
-        ctx.strokeStyle = `rgba(255, 255, 255, ${g.opacity})`;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${currentOpacity})`;
         ctx.lineWidth = 1;
 
         if (g.type === 'plus') {

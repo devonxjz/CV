@@ -296,7 +296,7 @@ const Skills = ({ skills, showMarquee }: SkillsProps) => {
   return (
     <div className="skills-content">
       <h2 className="skills-heading">What I build with</h2>
-      <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '6px', textAlign: 'center' }}>
+      <p className="section-subtitle">
         Technologies I use daily to build secure, scalable systems
       </p>
 

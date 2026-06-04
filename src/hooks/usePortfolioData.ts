@@ -66,7 +66,7 @@ export interface PortfolioData {
   contact: ContactInfo;
 }
 
-const LOCAL_STORAGE_KEY = 'portfolio-data-v4';
+const LOCAL_STORAGE_KEY = 'portfolio-data-v5';
 
 const getInitialData = (): PortfolioData => {
   try {
