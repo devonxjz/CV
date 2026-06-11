@@ -1,19 +1,17 @@
 interface CustomScrollbarProps {
-  currentSection: number;
-  totalSections: number;
+  scrollPct: number;
 }
 
-const CustomScrollbar = ({ currentSection, totalSections }: CustomScrollbarProps) => {
-  const thumbHeightPct = 100 / totalSections;
-  const thumbTopPct = (currentSection / (totalSections - 1)) * (100 - thumbHeightPct);
+const CustomScrollbar = ({ scrollPct }: CustomScrollbarProps) => {
+  const thumbHeightPx = 60; // Clean, elegant scrollbar thumb size
 
   return (
     <div className="custom-scrollbar-track" id="custom-scrollbar">
       <div
         className="custom-scrollbar-thumb"
         style={{
-          height: `${thumbHeightPct}%`,
-          top: `${thumbTopPct}%`
+          height: `${thumbHeightPx}px`,
+          top: `calc(${scrollPct} * (100% - ${thumbHeightPx}px))`
         }}
       />
     </div>

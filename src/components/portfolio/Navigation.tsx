@@ -7,7 +7,7 @@ const NAV_ITEMS = ['Home', 'Skills', 'Timeline', 'Projects', 'Contact'];
 
 const Navigation = ({ currentSection, goToSection }: NavigationProps) => {
   return (
-    <nav className={`portfolio-nav${currentSection > 0 ? ' hidden' : ''}`}>
+    <nav className={`portfolio-nav ${currentSection > 0 ? 'pill-nav' : ''}`}>
       <div
         className="nav-logo"
         onClick={() => goToSection(0)}

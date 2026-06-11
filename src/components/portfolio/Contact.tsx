@@ -1,3 +1,10 @@
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import avatarImg from '../../assets/avatar_topology.png';
+
+gsap.registerPlugin(ScrollTrigger);
+
 interface ContactData {
   github: string;
   linkedin: string;
@@ -34,6 +41,9 @@ const FacebookIcon = () => (
 );
 
 const Contact = ({ contact }: ContactProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const portraitRef = useRef<HTMLDivElement>(null);
+
   const links = [
     { label: 'GitHub', url: contact.github, icon: <GithubIcon /> },
     { label: 'LinkedIn', url: contact.linkedin, icon: <LinkedInIcon /> },
@@ -41,32 +51,96 @@ const Contact = ({ contact }: ContactProps) => {
     { label: 'Facebook', url: contact.facebook, icon: <FacebookIcon /> },
   ];
 
+  useEffect(() => {
+    // 1. Gently float the topological portrait up and down
+    if (portraitRef.current) {
+      gsap.to(portraitRef.current, {
+        y: -12,
+        duration: 4,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+      });
+    }
+
+    // 2. ScrollTrigger entrance animation for buttons
+    const buttons = containerRef.current?.querySelectorAll('.contact-btn');
+    if (buttons && buttons.length > 0) {
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        scroller: '.portfolio-wrap',
+        start: 'top 85%',
+        onEnter: () => {
+          gsap.fromTo(buttons,
+            { opacity: 0, scale: 0.85, y: 20 },
+            {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 0.6,
+              stagger: 0.1,
+              ease: 'power3.out',
+              clearProps: 'transform'
+            }
+          );
+        },
+        once: true
+      });
+    }
+  }, []);
+
+  const handleBtnClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLSpanElement>) => {
+    gsap.fromTo(e.currentTarget,
+      { scale: 0.94 },
+      { scale: 1, duration: 0.4, ease: 'elastic.out(1, 0.3)' }
+    );
+  };
+
   return (
-    <div className="contact-content">
-      <h2 className="contact-heading">Let's build something</h2>
-      <p className="contact-subtext">
-        Available for internships and collaboration
-      </p>
-      <div className="contact-buttons">
-        {links.map((link) =>
-          link.url ? (
-            <a
-              key={link.label}
-              className={`contact-btn btn-${link.label.toLowerCase()}`}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {link.icon}
-              {link.label}
-            </a>
-          ) : (
-            <span key={link.label} className={`contact-btn btn-${link.label.toLowerCase()}`} style={{ opacity: 0.3, cursor: 'not-allowed' }}>
-              {link.icon}
-              {link.label}
-            </span>
-          )
-        )}
+    <div className="contact-section-container" ref={containerRef}>
+      <div className="contact-split-layout">
+        {/* Left Side: Art Portrait */}
+        <div className="contact-portrait-wrapper">
+          <div className="contact-portrait-card" ref={portraitRef}>
+            <img src={avatarImg} alt="Devonxjz Topology Portrait" className="contact-portrait-img" />
+            <div className="contact-portrait-glow" />
+          </div>
+        </div>
+
+        {/* Right Side: Contact Info */}
+        <div className="contact-info-wrapper">
+          <h2 className="contact-heading">Let's build something</h2>
+          <p className="contact-subtext">
+            Available for internships and collaboration. Let's connect!
+          </p>
+          <div className="contact-buttons">
+            {links.map((link) =>
+              link.url ? (
+                <a
+                  key={link.label}
+                  className={`contact-btn btn-${link.label.toLowerCase()}`}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleBtnClick}
+                >
+                  {link.icon}
+                  {link.label}
+                </a>
+              ) : (
+                <span
+                  key={link.label}
+                  className={`contact-btn btn-${link.label.toLowerCase()}`}
+                  style={{ opacity: 0.3, cursor: 'not-allowed' }}
+                  onClick={handleBtnClick}
+                >
+                  {link.icon}
+                  {link.label}
+                </span>
+              )
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

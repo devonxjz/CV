@@ -1,0 +1,16 @@
+{
+  "visual_mode": "dark",
+  "palette": {
+    "bg": "#0d0d0d",
+    "text": "#ffffff",
+    "accent": "#6da4ff",
+    "surface": "#12161f"
+  },
+  "fonts": {
+    "primary": "Google Sans Code",
+    "fallback": "monospace"
+  },
+  "border_radius": "8px",
+  "shadow": "0 4px 24px rgba(0,0,0,0.3)",
+  "spacing_base": 4
+}

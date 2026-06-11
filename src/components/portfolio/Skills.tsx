@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SKILL_COLORS, SKILL_ICONS, SKILL_FALLBACK_COLOR, SKILL_FALLBACK_ICON } from '../../data/brandAssets';
 
 interface Skill {
@@ -11,7 +11,6 @@ interface Skill {
 
 interface SkillsProps {
   skills: Skill[];
-  animateBars: boolean;
   showMarquee: boolean;
 }
 
@@ -91,36 +90,6 @@ const MotionSkillCard = ({
   const cardRef = useRef<HTMLDivElement>(null);
   const isFront = depthIndex === 0;
 
-  // Hover 3D tilt motion values
-  const tiltX = useMotionValue(0);
-  const tiltY = useMotionValue(0);
-
-  // Springs for 3D hover rotation (only active on front card)
-  const springRotateX = useSpring(useTransform(tiltY, [-0.5, 0.5], [10, -10]), { damping: 25, stiffness: 200 });
-  const springRotateY = useSpring(useTransform(tiltX, [-0.5, 0.5], [-10, 10]), { damping: 25, stiffness: 200 });
-
-  const [glowPos, setGlowPos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isFront || !cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    tiltX.set((mouseX / width) - 0.5);
-    tiltY.set((mouseY / height) - 0.5);
-    setGlowPos({ x: mouseX, y: mouseY });
-  };
-
-  const handleMouseLeave = () => {
-    tiltX.set(0);
-    tiltY.set(0);
-    setIsHovered(false);
-  };
-
   // Stack translations
   const targetX = depthIndex * xOffset;
   const targetZ = -depthIndex * zOffset;
@@ -157,9 +126,10 @@ const MotionSkillCard = ({
         opacity: targetOpacity,
         x: targetX,
         z: targetZ,
-        rotateY: isFront && isHovered ? springRotateY.get() : targetRotateY,
-        rotateX: isFront && isHovered ? springRotateX.get() : 0,
+        rotateY: targetRotateY,
+        rotateX: 0,
       }}
+      whileHover={isFront ? { y: -6, scale: 1.02 } : undefined}
       exit={{
         opacity: 0,
         x: 500,
@@ -178,25 +148,16 @@ const MotionSkillCard = ({
         zIndex: visibleCount - depthIndex,
         transformStyle: "preserve-3d",
       }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => isFront && setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
     >
-      {/* Front card glow reflection */}
-      {isFront && isHovered && (
+      {/* Subtle Static Glow reflection */}
+      {isFront && (
         <div
           className="skill-card-glow"
           style={{
-            background: `radial-gradient(150px circle at ${glowPos.x}px ${glowPos.y}px, ${brandColor}1c, transparent 80%)`,
+            background: `radial-gradient(150px circle at center, ${brandColor}12, transparent 80%)`,
           }}
         />
       )}
-
-      {/* Blueprint Corner Indicators */}
-      <div className="card-blueprint-corner top-left" />
-      <div className="card-blueprint-corner top-right" />
-      <div className="card-blueprint-corner bottom-left" />
-      <div className="card-blueprint-corner bottom-right" />
 
       {/* Floating Header */}
       <div className="skill-card-header" style={{ width: '100%' }}>

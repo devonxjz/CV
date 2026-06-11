@@ -1,9 +1,15 @@
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import agentImg from '../../assets/agent.png';
 import spkImg from '../../assets/SPK.png';
 import heroImg from '../../assets/hero.png';
 import cvAgentImg from '../../assets/cv-agent.png';
 import vibeTDUImg from '../../assets/vibeTDU.png';
 import osintImg from '../../assets/osint.png';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const renderWithHighlights = (text?: string) => {
   if (!text) return null;
@@ -49,8 +55,48 @@ const getProjectImage = (title: string, jsonImage?: string) => {
 };
 
 const Projects = ({ projects }: ProjectsProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const cards = containerRef.current?.querySelectorAll('.project-card-square');
+    if (!cards || cards.length === 0) return;
+
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        scroller: '.portfolio-wrap',
+        start: 'top 85%',
+        onEnter: () => {
+          gsap.fromTo(cards,
+            { opacity: 0, y: 45, scale: 0.93, rotateX: -5 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              rotateX: 0,
+              duration: 0.8,
+              stagger: 0.12,
+              ease: 'power3.out',
+              clearProps: 'transform'
+            }
+          );
+        },
+        once: true
+      });
+    });
+
+    return () => ctx.revert();
+  }, [projects]);
+
+  const handleBtnClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    gsap.fromTo(e.currentTarget,
+      { scale: 0.94 },
+      { scale: 1, duration: 0.4, ease: 'elastic.out(1, 0.3)' }
+    );
+  };
+
   return (
-    <div className="projects-content">
+    <div className="projects-content" ref={containerRef}>
       <h2 className="projects-heading">What I've built</h2>
       <p className="section-subtitle" style={{ marginBottom: '24px' }}>
         Selected projects with real-world impact
@@ -101,6 +147,7 @@ const Projects = ({ projects }: ProjectsProps) => {
                     href={projectLink}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={handleBtnClick}
                     style={{ '--project-color': project.dotColor } as React.CSSProperties}
                   >
                     View Project

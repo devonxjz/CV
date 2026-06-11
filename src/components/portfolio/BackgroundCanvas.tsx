@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react';
 
 interface BackgroundCanvasProps {
-  mouseX: number;
-  mouseY: number;
   currentSection: number;
 }
 
@@ -28,25 +26,29 @@ const sectionShapes: Record<number, { type: string; x: number; y: number; size: 
   ],
 };
 
-const BackgroundCanvas = ({ mouseX, mouseY, currentSection }: BackgroundCanvasProps) => {
+const BackgroundCanvas = ({ currentSection }: BackgroundCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const glyphs = useRef<Glyph[]>([]);
   const currentAlphas = useRef<Record<number, number>>({});
 
-  const mouseXRef = useRef(mouseX);
-  const mouseYRef = useRef(mouseY);
+  const mouseXRef = useRef(0);
+  const mouseYRef = useRef(0);
   const currentSectionRef = useRef(currentSection);
   const currentMouseX = useRef(0);
   const currentMouseY = useRef(0);
 
   useEffect(() => {
-    mouseXRef.current = mouseX;
-    mouseYRef.current = mouseY;
-  }, [mouseX, mouseY]);
-
-  useEffect(() => {
     currentSectionRef.current = currentSection;
   }, [currentSection]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseXRef.current = e.clientX;
+      mouseYRef.current = e.clientY;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
